@@ -19,5 +19,6 @@
 		color: $colour;
 		text-decoration: underline;
 		text-decoration-color: $primary-dimmed;
+		cursor: pointer;
 	}
 </style>
