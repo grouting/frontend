@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,500;1,500&family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+	margin: 0;
+	background-color: $background-colour;
+	color: $colour;
+	font-family: $font-family;
+	font-size: $font-size;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+::selection {
+	background-color: $colour;
+	color: $background-colour;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Archivo Narrow', sans-serif;
+	font-weight: 500;
+}
+
+a {
+	color: $colour;
+	text-decoration-color: $primary-dimmed;
+}
+
+a:hover, a:hover > button, a.active > button {
+	text-decoration-color: $colour;
+}
+
+.container {
+	width: 100%;
+	flex-grow: 1;
+	padding-right: calc($gutter-x * 0.5);
+	padding-left: calc($gutter-x * 0.5);
+	margin-right: auto;
+	margin-left: auto;
+}
+@media (min-width: 576px) {
+	.container {
+		max-width: 540px;
+	}
+}
+@media (min-width: 768px) {
+	.container {
+		max-width: 720px;
+	}
+}
+@media (min-width: 992px) {
+	.container {
+		max-width: 960px;
+	}
+}
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1140px;
+	}
+}
+@media (min-width: 1400px) {
+	.container {
+		max-width: 1320px;
+	}
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: calc(-1 * $gutter-y);
+	margin-right: calc(-0.5 * $gutter-x);
+	margin-left: calc(-0.5 * $gutter-x);
+}
+.row > * {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+	padding-right: calc($gutter-x * 0.5);
+	padding-left: calc($gutter-x * 0.5);
+	margin-top: $gutter-y;
+}
+
+.col {
+	flex: 1 0 0%;
+}
+
+.col-auto {
+	flex: 0 0 auto;
+	width: auto;
+}
+
+.col-1 {
+	flex: 0 0 auto;
+	width: 8.33333333%;
+}
+
+.col-2 {
+	flex: 0 0 auto;
+	width: 16.66666667%;
+}
+
+.col-3 {
+	flex: 0 0 auto;
+	width: 25%;
+}
+
+.col-4 {
+	flex: 0 0 auto;
+	width: 33.33333333%;
+}
+
+.col-5 {
+	flex: 0 0 auto;
+	width: 41.66666667%;
+}
+
+.col-6 {
+	flex: 0 0 auto;
+	width: 50%;
+}
+
+.col-7 {
+	flex: 0 0 auto;
+	width: 58.33333333%;
+}
+
+.col-8 {
+	flex: 0 0 auto;
+	width: 66.66666667%;
+}
+
+.col-9 {
+	flex: 0 0 auto;
+	width: 75%;
+}
+
+.col-10 {
+	flex: 0 0 auto;
+	width: 83.33333333%;
+}
+
+.col-11 {
+	flex: 0 0 auto;
+	width: 91.66666667%;
+}
+
+.col-12 {
+	flex: 0 0 auto;
+	width: 100%;
+}
+
+div.middle {
+	display: flex;
+	justify-content: center;
+}
+
+.gap-1 {
+	gap: 0.5rem;
+}

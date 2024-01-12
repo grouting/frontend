@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { Button, Jumbotron } from '$lib';
+</script>
+
+<Jumbotron>This is not the website you will become famous on</Jumbotron>
+<div class="middle gap-1">
+	<Button href="/register">Sounds excellent</Button>
+	<Button href="https://insultingstupidpersonwebsite.com">What? [insult here]</Button>
+</div>
