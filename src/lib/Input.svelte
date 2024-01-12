@@ -32,30 +32,32 @@
 	}
 </script>
 
-<label for={id} id={labelId}>
-	{label}
-	{#if !required}
-		(optional)
-	{/if}
-</label>
-<div class="elements">
-	<input
-		{name}
-		{required}
-		bind:value
-		on:input={handleInput}
-		data-invalid={error}
-		aria-invalid={error}
-		class:error
-		class:with-visibility-toggle={visibilityToggle}
-		{id}
-		aria-describedby={labelId}
-	/>
-	{#if visibilityToggle}
-		<button class="visibility-toggle" type="button" on:click={toggleVisibility}>
-			<Eye open={passwordVisible} />
-		</button>
-	{/if}
+<div>
+	<label for={id} id={labelId}>
+		{label}
+		{#if !required}
+			(optional)
+		{/if}
+	</label>
+	<div class="elements">
+		<input
+			{name}
+			{required}
+			bind:value
+			on:input={handleInput}
+			data-invalid={error}
+			aria-invalid={error}
+			class:error
+			class:with-visibility-toggle={visibilityToggle}
+			{id}
+			aria-describedby={labelId}
+		/>
+		{#if visibilityToggle}
+			<button class="visibility-toggle" type="button" on:click={toggleVisibility}>
+				<Eye open={passwordVisible} />
+			</button>
+		{/if}
+	</div>
 </div>
 
 <style lang="scss">
