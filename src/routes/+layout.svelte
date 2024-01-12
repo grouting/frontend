@@ -49,6 +49,10 @@
 		margin: 0;
 	}
 
+	header {
+		border-bottom: 1px solid $primary;
+	}
+
 	main {
 		flex: 1;
 	}
@@ -59,6 +63,7 @@
 		margin-bottom: 0;
 		display: flex;
 		align-items: center;
+		border-top: 1px solid $primary;
 	}
 
 	footer > div {
