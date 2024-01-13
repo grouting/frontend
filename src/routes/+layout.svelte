@@ -1,20 +1,35 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
 	import '../app.scss';
 	import { NavItem } from '$lib';
+
+	export let data: LayoutData;
 </script>
 
 <header>
 	<div class="container">
 		<nav>
-			<ul>
-				<p class="name">Website Name</p>
-				<NavItem href="/" strictPath>Home</NavItem>
-				<NavItem href="/test">Test</NavItem>
-			</ul>
-			<ul>
-				<NavItem href="/login">Login</NavItem>
-				<NavItem href="/register">Register</NavItem>
-			</ul>
+			{#if !data.loggedIn}
+				<ul>
+					<p class="name">WWW</p>
+					<NavItem href="/" strictPath>Home</NavItem>
+					<NavItem href="/test">Test</NavItem>
+				</ul>
+				<ul>
+					<NavItem href="/login">Login</NavItem>
+					<NavItem href="/register">Register</NavItem>
+				</ul>
+			{:else}
+				<ul>
+					<p class="name">WWW</p>
+					<NavItem href="/dashboard">Dashboard</NavItem>
+					<NavItem href="/test 2">Test 2</NavItem>
+				</ul>
+				<ul>
+					<NavItem href="/account">{data.user.email}</NavItem>
+					<NavItem href="/logout">Log out</NavItem>
+				</ul>
+			{/if}
 		</nav>
 	</div>
 </header>

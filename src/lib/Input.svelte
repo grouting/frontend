@@ -6,7 +6,7 @@
 	export let type: string;
 	export let required = false;
 	export let visibilityToggle = false;
-	export let error = false;
+	export let error: string | null = null;
 
 	export let value = '';
 
@@ -16,7 +16,7 @@
 	let labelId = 'input-' + Math.random().toString(36);
 
 	function handleInput(e: any): void {
-		error = false;
+		error = null;
 		if (!visibilityToggle) {
 			e.target.type = type;
 		} else {
@@ -45,9 +45,9 @@
 			{required}
 			bind:value
 			on:input={handleInput}
-			data-invalid={error}
-			aria-invalid={error}
-			class:error
+			data-invalid={error !== null}
+			aria-invalid={error !== null}
+			class:error={error !== null}
 			class:with-visibility-toggle={visibilityToggle}
 			{id}
 			aria-describedby={labelId}
@@ -58,6 +58,11 @@
 			</button>
 		{/if}
 	</div>
+	{#if error !== null}
+		<div class="error">
+			{error}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -105,5 +110,11 @@
 		display: flex;
 		width: 100%;
 		flex: 1 1 auto;
+	}
+
+	div.error {
+		display: block;
+		margin-top: 0.25rem;
+		font-size: 0.75rem;
 	}
 </style>
