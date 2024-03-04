@@ -62,6 +62,6 @@ export const actions = {
 			expires: validUntil, 
 		});
 
-		redirect(302, '/dashboard');
+		throw redirect(302, '/dashboard');
 	},
 } satisfies Actions;

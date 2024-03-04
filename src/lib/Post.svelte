@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { formatDate } from '$lib';
 
-	export let username: string;
+	export let author: { username: string };
 	export let content: string;
 	export let postedAt: Date;
-	export let tags: string[];
+	export let tags: { name: string }[];
 </script>
 
 <div class="post">
@@ -12,15 +12,15 @@
 	<div class="footer">
 		<div class="left">
 			<div class="username">
-				<a href="/profile/{username}" class="dimmed">
-					{username}
+				<a href="/profile/{author.username}" class="dimmed">
+					{author.username}
 				</a>
 			</div>
 			<ul>
 				{#each tags as tag}
 					<li>
-						<a href="/tags/{tag}" class="dimmed">
-							#{tag}
+						<a href="/tag/{tag.name}" class="dimmed">
+							#{tag.name}
 						</a>
 					</li>
 				{/each}

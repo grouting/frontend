@@ -20,7 +20,7 @@ model User {
 
 model Session {
     id           String   @id @default(cuid())
-    user         User     @relation(fields: [userId], references: [id])
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     friendlyName String?
     validUntil   DateTime
     sessionToken String   @unique
@@ -52,7 +52,7 @@ model Post {
 
 model Tag {
     id            String @id @default(cuid())
-    name          String
+    name          String @unique
     postsUsingTag Post[]
 }
 

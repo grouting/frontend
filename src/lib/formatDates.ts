@@ -5,6 +5,10 @@ export default function toString(date: Date): string {
 		return `${date.getHours()}:${date.getMinutes()}`;
 	}
 	else {
-		return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+		return `${format(date.getDate())}/${format(date.getMonth())}/${date.getFullYear()} ${format(date.getHours())}:${format(date.getMinutes())}`
 	}
+}
+
+function format(value: number): string {
+	return value.toString().padStart(2, '0');
 }
