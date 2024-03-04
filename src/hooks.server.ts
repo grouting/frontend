@@ -8,7 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.loggedIn = false;
 		return await resolve(event);
 	}
-	
+
 	const session = await prisma.session.findUnique({
 		where: {
 			sessionToken

@@ -7,7 +7,7 @@ export const load = (async ({ params }) => {
 
 	const posts = await prisma.tag.findFirst({
 		where: {
-			name: id,
+			name: id
 		},
 		select: {
 			postsUsingTag: {
@@ -29,17 +29,17 @@ export const load = (async ({ params }) => {
 					postedAt: 'desc'
 				}
 			},
-			_count: true,
-		},
+			_count: true
+		}
 	});
 
 	if (!posts) {
 		return error(404);
 	}
 
-    return { 
-		posts: posts.postsUsingTag, 
-		count: posts._count.postsUsingTag, 
-		tag: params.id 
+	return {
+		posts: posts.postsUsingTag,
+		count: posts._count.postsUsingTag,
+		tag: params.id
 	};
 }) satisfies PageServerLoad;

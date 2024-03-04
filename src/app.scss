@@ -17,7 +17,12 @@ body {
 	color: $background-colour;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: 'Archivo Narrow', sans-serif;
 	font-weight: 500;
 }
@@ -32,7 +37,9 @@ a.dimmed {
 	text-decoration-color: $primary;
 }
 
-a:hover, a:hover > button, a.active > button {
+a:hover,
+a:hover > button,
+a.active > button {
 	text-decoration-color: $colour;
 }
 

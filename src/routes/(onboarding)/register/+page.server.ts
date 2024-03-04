@@ -14,7 +14,7 @@ export const actions = {
 				email
 			},
 			select: {
-				id: true,
+				id: true
 			}
 		});
 
@@ -22,7 +22,7 @@ export const actions = {
 			return fail(400, {
 				field: 'email',
 				suggestions: 'this email is already in use',
-				return: { email } 
+				return: { email }
 			});
 		}
 
@@ -34,19 +34,18 @@ export const actions = {
 				field: 'password',
 				suggestions: 'DO BETTER',
 				return: { email }
-			})
+			});
 		}
-
 
 		const passwordHash = await argon2.hash(password);
 
 		await prisma.user.create({
 			data: {
 				email,
-				password: passwordHash,
+				password: passwordHash
 			}
 		});
 
 		throw redirect(302, '/login');
-	},
+	}
 } satisfies Actions;

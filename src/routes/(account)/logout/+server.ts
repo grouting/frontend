@@ -9,8 +9,8 @@ export const GET: RequestHandler = async ({ cookies }) => {
 		throw redirect(302, '/login');
 	}
 
-    cookies.delete('session_id', { path: '/' });
+	cookies.delete('session_id', { path: '/' });
 	await deleteSession(sessionId);
 
-    throw redirect(302, '/login');
+	throw redirect(302, '/login');
 };

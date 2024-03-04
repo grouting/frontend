@@ -1,5 +1,5 @@
-import words from "./words";
-import prisma from "./prisma";
+import words from './words';
+import prisma from './prisma';
 
 export default async function generateUsername(): Promise<string> {
 	const username = getWord() + getWord();

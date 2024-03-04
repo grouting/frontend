@@ -8,7 +8,7 @@ export const load = (async ({ params }) => {
 
 	const posts = await prisma.post.findMany({
 		where: {
-			authorId: params.id,
+			authorId: params.id
 		}
 	});
 
@@ -19,6 +19,6 @@ export const load = (async ({ params }) => {
 	}
 
 	return {
-		posts,
+		posts
 	};
 }) satisfies PageServerLoad;

@@ -9,7 +9,7 @@ export const load = (async ({ locals }) => {
 
 	const profile = await prisma.session.findUnique({
 		where: {
-			sessionToken: locals.sessionToken,
+			sessionToken: locals.sessionToken
 		},
 		select: {
 			user: {
@@ -22,7 +22,7 @@ export const load = (async ({ locals }) => {
 						select: {
 							username: true,
 							createdAt: true,
-							executionDate: true,
+							executionDate: true
 						}
 					}
 				}
@@ -35,10 +35,13 @@ export const load = (async ({ locals }) => {
 	}
 
 	if (!profile.user.activeActor) {
-		profile.user = {...profile.user, activeActor: (await createNewActor(profile.user.id)).activeActor };
+		profile.user = {
+			...profile.user,
+			activeActor: (await createNewActor(profile.user.id)).activeActor
+		};
 	}
 
-    return profile;
+	return profile;
 }) satisfies LayoutServerLoad;
 
 async function createNewActor(userId: string) {
@@ -46,15 +49,15 @@ async function createNewActor(userId: string) {
 
 	const updatedUser = await prisma.user.update({
 		where: {
-			id: userId,
+			id: userId
 		},
 		data: {
 			activeActor: {
 				create: {
 					username: await generateUsername(),
 					createdAt: new Date(now),
-					executionDate: new Date(now + 1000 * 60 * 60 * 24 * 7),
-				},
+					executionDate: new Date(now + 1000 * 60 * 60 * 24 * 7)
+				}
 			}
 		},
 		select: {
@@ -62,7 +65,7 @@ async function createNewActor(userId: string) {
 				select: {
 					username: true,
 					createdAt: true,
-					executionDate: true,
+					executionDate: true
 				}
 			}
 		}

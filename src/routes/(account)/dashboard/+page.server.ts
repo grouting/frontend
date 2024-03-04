@@ -23,7 +23,7 @@ export const actions = {
 						}
 					}
 				}
-			},
+			}
 		});
 
 		const actor = session!.user.activeActor!;
@@ -58,13 +58,12 @@ export const actions = {
 			}
 		});
 
-		return { 
-			ok: true, 
+		return {
+			ok: true,
 			post
 		};
-	},
+	}
 } satisfies Actions;
-
 
 export const load = (async () => {
 	const posts = await prisma.post.findMany({
@@ -72,7 +71,7 @@ export const load = (async () => {
 			content: true,
 			author: {
 				select: {
-					username: true,
+					username: true
 				}
 			},
 			postedAt: true,
@@ -102,7 +101,7 @@ async function findTagIdsInPost(post: string): Promise<IdObject[]> {
 
 		let tag = await prisma.tag.findUnique({
 			where: {
-				name: tagName,
+				name: tagName
 			},
 			select: {
 				id: true
