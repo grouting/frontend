@@ -80,6 +80,7 @@
 		display: flex;
 		align-items: center;
 		border-top: 1px solid $primary;
+		margin-top: 1rem;
 	}
 
 	footer > div {
