@@ -23,10 +23,9 @@
 				type="password"
 				name="password"
 				error={form?.field === 'password' ? form?.suggestions : null}
-				value={form?.return?.password}
 				required
 			/>
-			<Button>Register</Button>
+			<button>Register</button>
 		</Form>
 	</div>
 	<div class="col"></div>

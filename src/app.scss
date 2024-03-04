@@ -9,6 +9,7 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
 }
 
 ::selection {
@@ -26,8 +27,17 @@ a {
 	text-decoration-color: $primary-dimmed;
 }
 
+a.dimmed {
+	color: $primary-dimmed;
+	text-decoration-color: $primary;
+}
+
 a:hover, a:hover > button, a.active > button {
 	text-decoration-color: $colour;
+}
+
+a.dimmed:hover {
+	text-decoration-color: $primary-dimmed;
 }
 
 .container {
@@ -156,4 +166,20 @@ div.middle {
 
 .gap-1 {
 	gap: 0.5rem;
+}
+
+button {
+	background-color: $primary;
+	padding: $interact-padding-y $interact-padding-x;
+	border: none;
+	font-family: $font-family;
+	font-size: $font-size;
+	color: $colour;
+	text-decoration: underline;
+	text-decoration-color: $primary-dimmed;
+	cursor: pointer;
+}
+
+button:hover {
+	text-decoration-color: $colour;
 }

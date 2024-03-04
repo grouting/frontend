@@ -1,40 +1,67 @@
-import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
-import cookie from 'cookie';
-import { BACKEND_URI } from '$env/static/private';
-import { redirect } from '@sveltejs/kit';
-
-export const load = (async () => {
-	return {};
-}) satisfies PageServerLoad;
+import { redirect, fail } from '@sveltejs/kit';
+import { prisma } from '$lib/server';
+import argon2 from 'argon2';
+import { nanoid } from 'nanoid';
 
 export const actions = {
-	default: async ({ request, fetch, cookies }) => {
-		const data = await request.formData();
-		const email = await data.get('email');
-		const password = await data.get('password');
+	default: async ({ request, cookies }) => {
+		const formData = await request.formData();
+		const email = formData.get('email') as string;
+		const password = formData.get('password') as string;
 
-		const result = await fetch(`${BACKEND_URI}/login`, {
-			method: 'POST',
-			body: JSON.stringify({
+		const user = await prisma.user.findFirst({ 
+			where: {
 				email,
-				password
-			})
+			},
+			select: {
+				id: true,
+				password: true,
+			}
 		});
 
-		if (result.status !== 200) {
-			return await result.json();
+		// TODO: more verification
+
+		if (!user) {
+			return fail(401, { 
+				field: 'email', 
+				suggestions: 'email not in use', 
+				return: { email } 
+			});
 		}
 
-		const sessionIdCookie = cookie.parse(result.headers.getSetCookie()[0]);
+		if (!await argon2.verify(user.password, password)) {
+			return fail(401, { 
+				field: 'email', 
+				suggestions: 'email not in use', 
+				return: { email } 
+			});
+		}
+		
+		const validUntil = new Date(2099, 12);
+		const sessionToken = nanoid();
 
-		// FIXME: should be secure
-		cookies.set('session_id', sessionIdCookie.session_id, {
-			sameSite: 'strict',
-			path: '/',
-			expires: new Date(sessionIdCookie.expires),
+		await prisma.user.update({
+			where: {
+				id: user.id,
+			},
+			data: {
+				sessions: {
+					create: {
+						validUntil,
+						sessionToken,
+					}
+				}
+			}
 		});
 
-		throw redirect(302, '/dashboard');
+		// FIXME: should be secure
+		cookies.set('session_id', sessionToken, {
+			sameSite: 'strict',
+			path: '/',
+			expires: validUntil, 
+		});
+
+		redirect(302, '/dashboard');
 	},
 } satisfies Actions;

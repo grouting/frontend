@@ -23,11 +23,10 @@
 				type="password"
 				name="password"
 				error={form?.field === 'password' ? form?.suggestions : null}
-				value={form?.return?.password}
 				required
 				visibilityToggle
 			/>
-			<Button>Login</Button>
+			<button>Login</button>
 		</Form>
 	</div>
 	<div class="col"></div>

@@ -4,4 +4,6 @@
 	export let data: PageData;
 </script>
 
-<h1>Good morning {data.user.email}</h1>
+<h1>Good morning {data?.user?.email}</h1>
+
+{@debug data}

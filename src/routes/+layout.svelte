@@ -11,7 +11,7 @@
 		<nav>
 			{#if !data.loggedIn}
 				<ul>
-					<p class="name">WWW</p>
+					<p class="name">Website name</p>
 					<NavItem href="/" strictPath>Home</NavItem>
 					<NavItem href="/test">Test</NavItem>
 				</ul>
@@ -21,12 +21,12 @@
 				</ul>
 			{:else}
 				<ul>
-					<p class="name">WWW</p>
+					<p class="name">Website name</p>
 					<NavItem href="/dashboard">Dashboard</NavItem>
 					<NavItem href="/test 2">Test 2</NavItem>
 				</ul>
 				<ul>
-					<NavItem href="/account">{data.user.email}</NavItem>
+					<NavItem href="/account">Account</NavItem>
 					<NavItem href="/logout">Log out</NavItem>
 				</ul>
 			{/if}
@@ -62,6 +62,7 @@
 
 	p.name {
 		margin: 0;
+		padding-right: 0.5rem;
 	}
 
 	header {

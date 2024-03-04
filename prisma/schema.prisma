@@ -1,0 +1,66 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id          String    @id @default(cuid())
+    email       String    @unique
+    password    String
+    role        Role      @default(Unverified)
+    preferences BigInt    @default(0)
+    activeActor Actor?
+    createdAt   DateTime  @default(now())
+    sessions    Session[]
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    user         User     @relation(fields: [userId], references: [id])
+    friendlyName String?
+    validUntil   DateTime
+    sessionToken String   @unique
+    userId       String
+}
+
+model Actor {
+    id            String   @id @default(cuid())
+    username      String
+    ownedBy       User?    @relation(fields: [ownedByUserId], references: [id])
+    posts         Post[]
+    createdAt     DateTime @default(now())
+    executionDate DateTime
+    ownedByUserId String?  @unique
+}
+
+model Post {
+    id        String   @id @default(cuid())
+    author    Actor    @relation(fields: [authorId], references: [id])
+    postedAt  DateTime @default(now())
+    tags      Tag[]
+    voteScore Int
+    content   String
+    children  Post[]   @relation("Subposts")
+    parent    Post?    @relation("Subposts", fields: [parentId], references: [id])
+    authorId  String
+    parentId  String?
+}
+
+model Tag {
+    id            String @id @default(cuid())
+    name          String
+    postsUsingTag Post[]
+}
+
+enum Role {
+    Unverified
+    Verified
+    ShadowBanned
+    Banned
+    Moderator
+    Administrator
+}
