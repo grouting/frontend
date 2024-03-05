@@ -5,6 +5,7 @@
 	export let content: string;
 	export let postedAt: Date;
 	export let tags: { name: string }[];
+	export let id: string;
 </script>
 
 <div class="post">
@@ -12,14 +13,14 @@
 	<div class="footer">
 		<div class="left">
 			<div class="username">
-				<a href="/profile/{author.username}" class="dimmed">
+				<a href="/actors/{author.username}" class="dimmed">
 					{author.username}
 				</a>
 			</div>
 			<ul>
 				{#each tags as tag}
 					<li>
-						<a href="/tag/{tag.name}" class="dimmed">
+						<a href="/tags/{tag.name}" class="dimmed">
 							#{tag.name}
 						</a>
 					</li>
@@ -28,7 +29,7 @@
 		</div>
 		<div>
 			<div class="date">
-				{formatDate(postedAt)}
+				<a href="/posts/{id}" class="dimmed">{formatDate(postedAt)}</a>
 			</div>
 			<div></div>
 		</div>

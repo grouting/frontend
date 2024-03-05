@@ -8,11 +8,28 @@ export const load = (async ({ params }) => {
 
 	const posts = await prisma.post.findMany({
 		where: {
-			authorId: params.id
+			author: {
+				username: params.id
+			}
+		},
+		select: {
+			id: true,
+			author: {
+				select: {
+					id: true,
+					username: true,
+				}
+			},
+			postedAt: true,
+			tags: {
+				select: {
+					name: true
+				}
+			},
+			voteScore: true,
+			content: true,
 		}
 	});
-
-	console.log(posts);
 
 	if (!posts) {
 		throw error(404);

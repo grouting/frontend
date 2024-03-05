@@ -6,7 +6,7 @@
 </script>
 
 {#each data.posts as post}
-	<Post username="aaaa" content={post.content} tags={post.tags} postedAt={new Date(0)} />
+	<Post {...post} />
 {:else}
 	<p>no posts</p>
 {/each}

@@ -68,6 +68,7 @@ export const actions = {
 export const load = (async () => {
 	const posts = await prisma.post.findMany({
 		select: {
+			id: true,
 			content: true,
 			author: {
 				select: {

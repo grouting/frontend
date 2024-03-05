@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
 	import { Input, Button, Jumbotron, Form } from '$lib';
+	import { pageName } from '$lib/stores';
 
 	export let form: ActionData;
+
+	$pageName = 'Register';
 </script>
 
 <div class="row">

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { LayoutData } from './$types';
 	import '../app.scss';
+
+	import type { LayoutData } from './$types';
 	import { NavItem } from '$lib';
 
 	export let data: LayoutData;
@@ -11,7 +12,7 @@
 		<nav>
 			{#if !data.loggedIn}
 				<ul>
-					<p class="name">Website name</p>
+					<p class="name">Chameleon</p>
 					<NavItem href="/" strictPath>Home</NavItem>
 					<NavItem href="/test">Test</NavItem>
 				</ul>
@@ -21,7 +22,7 @@
 				</ul>
 			{:else}
 				<ul>
-					<p class="name">Website name</p>
+					<p class="name">Chameleon</p>
 					<NavItem href="/dashboard">Dashboard</NavItem>
 					<NavItem href="/test 2">Test 2</NavItem>
 				</ul>
@@ -42,7 +43,10 @@
 
 <footer>
 	<div class="container">
-		<div>cool footer</div>
+		<div>
+			&copy; 2023-{new Date(Date.now()).getFullYear()} | A
+			<a href="https://muesli.zone">muesli.zone</a> production
+		</div>
 	</div>
 </footer>
 
