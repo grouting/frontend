@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
-	import { Post } from '$lib';
+	import { Post, PostInput } from '$lib';
 
 	export let data: PageData;
 	// export let form: ActionData;
@@ -30,15 +30,20 @@
 				<p class="expiry-time">
 					{data.user.activeActor?.username} is scheduled for execution {getExecutionTime()}.
 				</p>
-				<form method="POST">
+				<!-- <form method="POST">
 					<textarea
 						name="post"
 						cols="30"
 						rows="10"
+						maxlength="500"
 						placeholder="Enter your insightful comments here you fucking idiot"
 					></textarea>
 					<button>Post as {data.user.activeActor?.username}</button>
-				</form>
+				</form> -->
+				<PostInput
+					inputPlaceholder="Enter your insightful comments here you fucking idiot"
+					buttonLabel="Post as {data.user.activeActor?.username}"
+				/>
 			</aside>
 		</div>
 		<div class="col-8">
@@ -54,25 +59,6 @@
 </div>
 
 <style lang="scss">
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	textarea {
-		border: 1px solid $primary-dimmed;
-		border-radius: 0;
-		background-color: $background-colour;
-		color: $colour;
-		font-size: $font-size;
-		font-family: $font-family;
-		padding: $interact-padding-y $interact-padding-x;
-		min-height: 2rem;
-		flex: 1 1 auto;
-		resize: vertical;
-	}
-
 	h1.username {
 		margin: 0;
 	}

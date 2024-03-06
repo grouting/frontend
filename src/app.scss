@@ -190,3 +190,28 @@ button {
 button:hover {
 	text-decoration-color: $colour;
 }
+
+hr {
+	border: none;
+	border-top: 1px solid $primary;
+}
+
+textarea {
+	border: 1px solid $primary;
+	border-radius: 0;
+	background-color: $background-colour;
+	color: $colour;
+	font-size: $font-size;
+	font-family: $font-family;
+	padding: $interact-padding-y $interact-padding-x;
+	min-height: 1rem;
+	flex: 1 1 auto;
+	resize: vertical;
+	margin: 0;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}

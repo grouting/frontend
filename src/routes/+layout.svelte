@@ -7,6 +7,10 @@
 	export let data: LayoutData;
 </script>
 
+<svelte:head>
+	<title>Chameleon</title>
+</svelte:head>
+
 <header>
 	<div class="container">
 		<nav>
@@ -45,7 +49,7 @@
 	<div class="container">
 		<div>
 			&copy; 2023-{new Date(Date.now()).getFullYear()} | A
-			<a href="https://muesli.zone">muesli.zone</a> production
+			<a href="https://muesli.zone/" target="_blank">muesli.zone</a> production
 		</div>
 	</div>
 </footer>

@@ -1,3 +1,4 @@
+export { default as createPost } from './createPost';
 export { default as generateUsername } from './generateUsername';
 export { default as prisma } from './prisma';
 export * from './session';

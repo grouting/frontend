@@ -10,7 +10,8 @@ export const load = (async ({ params }) => {
 		where: {
 			author: {
 				username: params.id
-			}
+			},
+			parent: null
 		},
 		select: {
 			id: true,
@@ -28,6 +29,7 @@ export const load = (async ({ params }) => {
 			},
 			voteScore: true,
 			content: true,
+
 		}
 	});
 

@@ -6,32 +6,37 @@
 	export let postedAt: Date;
 	export let tags: { name: string }[];
 	export let id: string;
+	export let _count = { children: -1 };
+
+	$: content, addAnchorTagsToHashtags();
+
+	function addAnchorTagsToHashtags() {
+		for (const tag of tags) {
+			const pattern = new RegExp(`(#${tag.name})`, 'gi');
+			content = content.replaceAll(pattern, `<a href="/tags/${tag.name}">#${tag.name}</a>`);
+		}
+	}
 </script>
 
 <div class="post">
-	<div class="content">{content}</div>
+	<div class="content">
+		{@html content}
+	</div>
 	<div class="footer">
 		<div class="left">
+			{#if _count.children > -1}
+				<a href="/posts/{id}#comments" class="dimmed">{_count.children} comments</a>
+			{/if}
+		</div>
+		<div class="spaced">
+			<div class="date">
+				<a href="/posts/{id}" class="dimmed">{formatDate(postedAt)}</a>
+			</div>
 			<div class="username">
 				<a href="/actors/{author.username}" class="dimmed">
 					{author.username}
 				</a>
 			</div>
-			<ul>
-				{#each tags as tag}
-					<li>
-						<a href="/tags/{tag.name}" class="dimmed">
-							#{tag.name}
-						</a>
-					</li>
-				{/each}
-			</ul>
-		</div>
-		<div>
-			<div class="date">
-				<a href="/posts/{id}" class="dimmed">{formatDate(postedAt)}</a>
-			</div>
-			<div></div>
 		</div>
 	</div>
 </div>
@@ -50,7 +55,7 @@
 		color: $primary-dimmed;
 	}
 
-	.left {
+	.spaced {
 		display: flex;
 		gap: 1rem;
 	}
@@ -60,13 +65,5 @@
 		border-top: 1px solid $primary;
 		display: flex;
 		justify-content: space-between;
-	}
-
-	ul {
-		display: flex;
-		list-style: none;
-		padding-left: 0;
-		gap: 0.5rem;
-		margin: 0;
 	}
 </style>

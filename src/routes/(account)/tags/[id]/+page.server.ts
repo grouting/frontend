@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ params }) => {
-	const id = params.id;
+	const id = params.id.toLocaleLowerCase();
 
 	const posts = await prisma.tag.findFirst({
 		where: {
@@ -24,6 +24,9 @@ export const load = (async ({ params }) => {
 							name: true
 						}
 					}
+				},
+				where: {
+					parent: null
 				},
 				orderBy: {
 					postedAt: 'desc'
