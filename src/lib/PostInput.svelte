@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Form from './Form.svelte';
 
+	export let replyingToPostId: string | undefined = undefined;
 	export let inputPlaceholder: string;
 	export let buttonLabel: string;
 	export let rows = 10;
@@ -16,7 +18,14 @@
 	}
 </script>
 
-<Form>
+<form
+	method="POST"
+	use:enhance={({ formData }) => {
+		if (replyingToPostId) {
+			formData.append('replyingTo', replyingToPostId);
+		}
+	}}
+>
 	<div class="text-input">
 		<textarea name="post" {rows} maxlength={maxLength} placeholder={inputPlaceholder} bind:value
 		></textarea>
@@ -27,7 +36,7 @@
 		{/if}
 	</div>
 	<button>{buttonLabel}</button>
-</Form>
+</form>
 
 <style lang="scss">
 	.text-input {

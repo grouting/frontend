@@ -64,17 +64,18 @@ export const load = (async ({ params }) => {
 
 	if (post?.parent !== null) {
 		// TODO: return stack of traversed tree to get to post so it can be found when requested
-		const rootPostId = await findRootPostId(post.parent.id);
-		throw redirect(303, `/posts/${rootPostId}`);
+		const rootPostTrail = await findRootPostTrail([post.parent.id]);
+		console.log(rootPostTrail);
+		throw redirect(303, `/posts/${rootPostTrail[rootPostTrail.length - 1]}`);
 	}
 
 	return { post };
 }) satisfies PageServerLoad;
 
-async function findRootPostId(postId: string): Promise<string> {
+async function findRootPostTrail(trail: string[]): Promise<string[]> {
 	const post = await prisma.post.findUnique({
 		where: {
-			id: postId
+			id: trail[trail.length - 1]
 		},
 		select: {
 			parent: {
@@ -86,19 +87,27 @@ async function findRootPostId(postId: string): Promise<string> {
 	});
 
 	if (post?.parent !== null) {
-		return await findRootPostId(post!.parent.id);
+		// This is not the root post, therefore we need to search deeper
+		return await findRootPostTrail([...trail, post!.parent.id]);
 	}
 
-	return postId;
+	return trail;
 }
 
 export const actions = {
 	default: async ({ request, locals, params }) => {
 		const data = await request.formData();
 		const content = data.get('post') as string;
+		const replyingTo = data.get('replyingTo');
+
+		if (!replyingTo) {
+			return await createPost(content, locals.sessionToken as string, params.id);
+		} else {
+			// TODO: make sure the post replying to is actually the root as defined in params.id
+			return await createPost(content, locals.sessionToken as string, replyingTo as string);
+		}
 
 		// TODO: verification
 
-		return await createPost(content, locals.sessionToken as string, params.id);
 	}
 } satisfies Actions;

@@ -5,7 +5,7 @@
 	export let data: PageData;
 </script>
 
-<Post {...data.post} />
+<Post {...data.post} actorUsername={data.user.activeActor?.username ?? ''} />
 
 <hr />
 
@@ -16,7 +16,12 @@
 		rows={1}
 	/>
 	{#each data.post.children as comment}
-		<Post {...comment} />
+		<Post
+			{...comment}
+			actorUsername={data.user.activeActor?.username ?? ''}
+			inlineCommentView
+			commentField
+		/>
 	{:else}
 		<p>no comments</p>
 	{/each}

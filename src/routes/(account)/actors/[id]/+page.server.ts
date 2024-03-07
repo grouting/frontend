@@ -29,7 +29,11 @@ export const load = (async ({ params }) => {
 			},
 			voteScore: true,
 			content: true,
-
+			_count: {
+				select: {
+					children: true
+				}
+			}
 		}
 	});
 
