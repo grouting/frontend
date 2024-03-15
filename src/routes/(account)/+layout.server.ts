@@ -34,7 +34,9 @@ export const load = (async ({ locals }) => {
 		throw redirect(307, '/login');
 	}
 
-	if (!profile.user.activeActor) {
+	const activeActor = profile.user.activeActor;
+
+	if (!activeActor || activeActor.executionDate.getTime() < Date.now()) {
 		profile.user = {
 			...profile.user,
 			activeActor: (await createNewActor(profile.user.id)).activeActor

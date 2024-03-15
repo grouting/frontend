@@ -43,6 +43,9 @@ export const load = (async ({ params }) => {
 							children: true,
 						}
 					}
+				},
+				orderBy: {
+					postedAt: 'desc'
 				}
 			},
 			parent: {
@@ -65,7 +68,6 @@ export const load = (async ({ params }) => {
 	if (post?.parent !== null) {
 		// TODO: return stack of traversed tree to get to post so it can be found when requested
 		const rootPostTrail = await findRootPostTrail([post.parent.id]);
-		console.log(rootPostTrail);
 		throw redirect(303, `/posts/${rootPostTrail[rootPostTrail.length - 1]}`);
 	}
 

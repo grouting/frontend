@@ -2,7 +2,7 @@
 	import { formatDate } from '$lib';
 	import PostInput from './PostInput.svelte';
 
-	export let actorUsername: string;
+	export let actorUsername: string | undefined;
 
 	export let author: { username: string };
 	export let content: string;
@@ -58,10 +58,10 @@
 			// FIXME:
 		}
 
-		const comments = (await response.json()) as Comments;
-
-		return comments;
+		return (await response.json()) as Comments;
 	}
+
+	// console.log(formatDate(postedAt));
 </script>
 
 <div class="post">

@@ -12,6 +12,7 @@ export const load = (async ({ params }) => {
 		select: {
 			postsUsingTag: {
 				select: {
+					id: true,
 					content: true,
 					author: {
 						select: {
@@ -22,6 +23,11 @@ export const load = (async ({ params }) => {
 					tags: {
 						select: {
 							name: true
+						}
+					},
+					_count: {
+						select: {
+							children: true
 						}
 					}
 				},

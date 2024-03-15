@@ -13,10 +13,10 @@
 				<p>{data.count} posts</p>
 			</aside>
 		</div>
-		<div class="col-8">
+		<div class="col-9">
 			<article>
 				{#each data.posts as post}
-					<Post {...post} />
+					<Post {...post} actorUsername={data.user.activeActor?.username} />
 				{:else}
 					<p>No posts</p>
 				{/each}

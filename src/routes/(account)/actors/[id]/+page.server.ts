@@ -34,6 +34,9 @@ export const load = (async ({ params }) => {
 					children: true
 				}
 			}
+		},
+		orderBy: {
+			postedAt: 'desc'
 		}
 	});
 
@@ -41,7 +44,30 @@ export const load = (async ({ params }) => {
 		throw error(404);
 	}
 
+	const actor = await prisma.actor.findFirst({
+		where: {
+			username: params.id,
+		},
+		select: {
+			username: true,
+			createdAt: true,
+			executionDate: true,
+		}
+	});
+
+	const stats = await prisma.post.aggregate({
+		where: {
+			author: {
+				username: params.id
+			},
+			parent: null
+		},
+		_count: true
+	});
+
 	return {
-		posts
+		posts,
+		actor,
+		stats
 	};
 }) satisfies PageServerLoad;

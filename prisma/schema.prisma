@@ -29,7 +29,7 @@ model Session {
 
 model Actor {
     id            String   @id @default(cuid())
-    username      String
+    username      String   @unique
     ownedBy       User?    @relation(fields: [ownedByUserId], references: [id])
     posts         Post[]
     createdAt     DateTime @default(now())
