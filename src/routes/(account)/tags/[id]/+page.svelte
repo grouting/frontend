@@ -3,6 +3,8 @@
 	import { Post } from '$lib';
 
 	export let data: PageData;
+
+	// TODO: display comments
 </script>
 
 <div class="container no-padding">
@@ -16,7 +18,7 @@
 		<div class="col-9">
 			<article>
 				{#each data.posts as post}
-					<Post {...post} actorUsername={data.user.activeActor?.username} />
+					<Post {...post} actorUsername={data.activeActor?.username} />
 				{:else}
 					<p>No posts</p>
 				{/each}

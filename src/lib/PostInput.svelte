@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Form from './Form.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import type { Post } from '@prisma/client';
 
 	export let replyingToPostId: string | undefined = undefined;
 	export let inputPlaceholder: string;
 	export let buttonLabel: string;
 	export let rows = 10;
+
+	const dispatch = createEventDispatcher();
 
 	const maxLength = 500;
 	let value = '';
@@ -16,6 +19,10 @@
 	function assessCharacterCount() {
 		remainingCharacters = maxLength - value.length;
 	}
+
+	function onPostSubmitted() {
+		dispatch('postSubmitted');
+	}
 </script>
 
 <form
@@ -24,6 +31,11 @@
 		if (replyingToPostId) {
 			formData.append('replyingTo', replyingToPostId);
 		}
+
+		return async ({ update }) => {
+			onPostSubmitted();
+			update();
+		};
 	}}
 >
 	<div class="text-input">

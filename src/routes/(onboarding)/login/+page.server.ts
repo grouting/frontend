@@ -12,15 +12,13 @@ export const actions = {
 
 		const user = await prisma.user.findFirst({
 			where: {
-				email
+				email: email.toLocaleLowerCase()
 			},
 			select: {
 				id: true,
 				password: true
 			}
 		});
-
-		// TODO: more verification
 
 		if (!user) {
 			return fail(401, {
@@ -38,7 +36,8 @@ export const actions = {
 			});
 		}
 
-		const validUntil = new Date(2099, 12);
+		const secondsUntilExpiration = 60 * 60 * 24 * 7 * 2; // 2 weeks
+		const validUntil = new Date(Date.now() + 1000 * secondsUntilExpiration);
 		const sessionToken = nanoid();
 
 		await prisma.user.update({
@@ -55,10 +54,11 @@ export const actions = {
 			}
 		});
 
-		// FIXME: should be secure
 		cookies.set('session_id', sessionToken, {
-			sameSite: 'strict',
 			path: '/',
+			httpOnly: true,
+			sameSite: 'strict',
+			secure: process.env.NODE_ENV === 'production',
 			expires: validUntil
 		});
 

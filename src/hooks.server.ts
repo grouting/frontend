@@ -1,34 +1,30 @@
 import type { Handle } from '@sveltejs/kit';
-import { prisma, deleteSession } from '$lib/server';
+import { deleteSession, fetchSession, fetchUser } from '$lib/server';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionToken = event.cookies.get('session_id');
-
-	if (!sessionToken) {
-		event.locals.loggedIn = false;
-		return await resolve(event);
-	}
-
-	const session = await prisma.session.findUnique({
-		where: {
-			sessionToken
-		}
-	});
+	const session = await fetchSession(sessionToken);
 
 	if (!session) {
-		event.locals.loggedIn = false;
+		event.locals.sessionToken = undefined;
+		event.locals.user = null;
+		event.cookies.delete('session_id', { path: '/' });
 		return await resolve(event);
 	}
 
-	// TODO: do more verification
 	if (session.validUntil < new Date(Date.now())) {
 		await deleteSession(session.id);
-		event.locals.loggedIn = false;
+
+		event.locals.sessionToken = undefined;
+		event.locals.user = null;
+		event.cookies.delete('session_id', { path: '/' });
 		return await resolve(event);
 	}
 
-	event.locals.loggedIn = true;
+	const user = await fetchUser(session);
+
 	event.locals.sessionToken = sessionToken;
+	event.locals.user = user;
 
 	return await resolve(event);
 };

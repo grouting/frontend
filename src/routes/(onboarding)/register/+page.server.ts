@@ -26,9 +26,6 @@ export const actions = {
 			});
 		}
 
-		// TODO: more verification
-		// TODO: should passwords be returned?
-
 		if (password.length < 8) {
 			return fail(400, {
 				field: 'password',
@@ -37,11 +34,13 @@ export const actions = {
 			});
 		}
 
+		// TODO: etc
+
 		const passwordHash = await argon2.hash(password);
 
 		await prisma.user.create({
 			data: {
-				email,
+				email: email.toLocaleLowerCase(),
 				password: passwordHash
 			}
 		});

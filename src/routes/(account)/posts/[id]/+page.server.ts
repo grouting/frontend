@@ -109,7 +109,7 @@ export const actions = {
 			return await createPost(content, locals.sessionToken as string, replyingTo as string);
 		}
 
-		// TODO: verification
+		// TODO: authorization
 
 	}
 } satisfies Actions;

@@ -5,20 +5,20 @@
 	export let data: PageData;
 </script>
 
-<Post {...data.post} actorUsername={data.user.activeActor?.username ?? ''} />
+<Post {...data.post} actorUsername={data.activeActor?.username ?? ''} />
 
 <hr />
 
 <section id="comments">
 	<PostInput
 		inputPlaceholder="Reply to {data.post.author.username}'s post"
-		buttonLabel="Reply as {data.user.activeActor?.username}"
+		buttonLabel="Reply as {data.activeActor?.username}"
 		rows={1}
 	/>
 	{#each data.post.children as comment}
 		<Post
 			{...comment}
-			actorUsername={data.user.activeActor?.username ?? ''}
+			actorUsername={data.activeActor?.username ?? ''}
 			inlineCommentView
 			commentField
 		/>

@@ -1,11 +1,11 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
+import type { UserAndActor } from "$lib/server";
+
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			loggedIn: boolean;
 			sessionToken: string | undefined;
+			user: UserAndActor | null;
 		}
 		// interface PageData {}
 		// interface PageState {}
@@ -13,4 +13,4 @@ declare global {
 	}
 }
 
-export {};
+export { };

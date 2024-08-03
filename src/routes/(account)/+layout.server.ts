@@ -1,45 +1,24 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { prisma, generateUsername } from '$lib/server';
+import { prisma, generateUsername, fetchSession, fetchUser } from '$lib/server';
 
 export const load = (async ({ locals }) => {
-	if (!locals.loggedIn) {
+	if (!locals.user) {
 		throw redirect(307, '/login');
 	}
 
-	const profile = await prisma.session.findUnique({
-		where: {
-			sessionToken: locals.sessionToken
-		},
-		select: {
-			user: {
-				select: {
-					id: true,
-					email: true,
-					role: true,
-					preferences: true,
-					activeActor: {
-						select: {
-							username: true,
-							createdAt: true,
-							executionDate: true
-						}
-					}
-				}
-			}
-		}
-	});
+	let profile = await fetchUser(await fetchSession(locals.sessionToken));
 
 	if (!profile) {
 		throw redirect(307, '/login');
 	}
 
-	const activeActor = profile.user.activeActor;
+	const activeActor = profile.activeActor;
 
 	if (!activeActor || activeActor.executionDate.getTime() < Date.now()) {
-		profile.user = {
-			...profile.user,
-			activeActor: (await createNewActor(profile.user.id)).activeActor
+		profile = {
+			...profile,
+			activeActor: (await createNewActor(profile.id)).activeActor
 		};
 	}
 
@@ -62,14 +41,8 @@ async function createNewActor(userId: string) {
 				}
 			}
 		},
-		select: {
-			activeActor: {
-				select: {
-					username: true,
-					createdAt: true,
-					executionDate: true
-				}
-			}
+		include: {
+			activeActor: true
 		}
 	});
 

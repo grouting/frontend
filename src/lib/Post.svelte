@@ -33,6 +33,8 @@
 		showCommentReplyForm = !showCommentReplyForm;
 	}
 
+	let commentLoadFailed = false;
+
 	type Comments = {
 		id: string;
 		postedAt: Date;
@@ -49,13 +51,14 @@
 		};
 	}[];
 
-	async function loadComments(): Promise<Comments> {
+	async function loadComments(): Promise<Comments | null> {
 		const response = await fetch(`/api/posts/${id}/comments`, {
 			method: 'GET'
 		});
 
 		if (!response.ok) {
-			// FIXME:
+			commentLoadFailed = true;
+			return null;
 		}
 
 		return (await response.json()) as Comments;
@@ -109,9 +112,13 @@
 			{#await loadComments()}
 				<p>fetching comments...</p>
 			{:then comments}
-				{#each comments as comment}
-					<svelte:self {...comment} {actorUsername} inlineCommentView {commentField} />
-				{/each}
+				{#if !comments}
+					<p>an error occurred while fetching the comments</p>
+				{:else}
+					{#each comments as comment}
+						<svelte:self {...comment} {actorUsername} inlineCommentView {commentField} />
+					{/each}
+				{/if}
 			{:catch error}
 				<p>failed to fetch comments ({error})</p>
 			{/await}

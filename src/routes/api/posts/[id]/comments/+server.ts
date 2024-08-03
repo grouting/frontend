@@ -3,10 +3,8 @@ import { prisma } from '$lib/server';
 import { error, json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ locals, params }) => {
-	// TODO: verification
-
-	if (!locals.loggedIn) {
-		error(403);
+	if (!locals.user) {
+		throw error(404);
 	}
 
 	const post = await prisma.post.findUnique({
@@ -42,7 +40,7 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 
 
 	if (!post) {
-		error(404);
+		throw error(404);
 	}
 
 	return json(post.children);
