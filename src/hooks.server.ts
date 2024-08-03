@@ -6,19 +6,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const session = await fetchSession(sessionToken);
 
 	if (!session) {
-		event.locals.sessionToken = undefined;
-		event.locals.user = null;
-		event.cookies.delete('session_id', { path: '/' });
-		return await resolve(event);
+		return await invalidateClientSession();
 	}
 
 	if (session.validUntil < new Date(Date.now())) {
 		await deleteSession(session.id);
-
-		event.locals.sessionToken = undefined;
-		event.locals.user = null;
-		event.cookies.delete('session_id', { path: '/' });
-		return await resolve(event);
+		return await invalidateClientSession();
 	}
 
 	const user = await fetchUser(session);
@@ -27,4 +20,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 
 	return await resolve(event);
+
+	async function invalidateClientSession() {
+		event.locals.sessionToken = undefined;
+		event.locals.user = null;
+		event.cookies.delete('session_id', { path: '/' });
+		return await resolve(event);
+	}
 };
