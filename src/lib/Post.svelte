@@ -60,8 +60,6 @@
 
 		return (await response.json()) as Comments;
 	}
-
-	// console.log(formatDate(postedAt));
 </script>
 
 <div class="post">
@@ -87,7 +85,7 @@
 		</div>
 		<div class="spaced">
 			<div class="date">
-				<a href="/posts/{id}" class="dimmed">formatDate(postedAt)</a>
+				<a href="/posts/{id}" class="dimmed">{formatDate(postedAt)}</a>
 			</div>
 			<div class="username">
 				<a href="/actors/{author.username}" class="dimmed">

@@ -41,7 +41,7 @@
 					<button>Post as {data.user.activeActor?.username}</button>
 				</form> -->
 				<PostInput
-					inputPlaceholder="Enter your insightful comments here you fucking idiot"
+					inputPlaceholder="Enter your insightful comments here you fool"
 					buttonLabel="Post as {data.user.activeActor?.username}"
 				/>
 			</aside>
@@ -49,7 +49,7 @@
 		<div class="col-8">
 			<article>
 				{#each posts as post}
-					<Post {...post} />
+					<Post {...post} actorUsername={data.user.activeActor?.username} />
 				{:else}
 					<p>No posts to display</p>
 				{/each}

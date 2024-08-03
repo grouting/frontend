@@ -27,6 +27,7 @@
 				name="password"
 				error={form?.field === 'password' ? form?.suggestions : null}
 				required
+				visibilityToggle
 			/>
 			<button>Register</button>
 		</Form>
