@@ -11,7 +11,6 @@ export const load = (async ({ params }) => {
 			author: {
 				username: params.id
 			},
-			parent: null
 		},
 		select: {
 			id: true,
@@ -19,6 +18,21 @@ export const load = (async ({ params }) => {
 				select: {
 					id: true,
 					username: true,
+				}
+			},
+			parent: {
+				select: {
+					id: true,
+					author: {
+						select: {
+							id: true,
+							username: true,
+						}
+					},
+					content: true,
+					parentId: true,
+					postedAt: true,
+					voteScore: true
 				}
 			},
 			postedAt: true,
@@ -33,7 +47,7 @@ export const load = (async ({ params }) => {
 				select: {
 					children: true
 				}
-			}
+			},
 		},
 		orderBy: {
 			postedAt: 'desc'
@@ -60,7 +74,6 @@ export const load = (async ({ params }) => {
 			author: {
 				username: params.id
 			},
-			parent: null
 		},
 		_count: true
 	});

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { Post, PostInput } from '$lib';
-	import { invalidateAll } from '$app/navigation';
+	import type { Posts } from '../../api/posts/+server';
 
 	export let data: PageData;
 
-	let posts = data.posts;
+	let postLoadFailed = false;
 
 	function getExecutionTime(): string {
 		const actor = data.activeActor;
@@ -21,9 +21,23 @@
 		}
 	}
 
-	async function postSubmitted() {
-		// TODO: refresh
-		invalidateAll();
+	async function loadPosts(): Promise<Posts | null> {
+		const response = await fetch(`/api/posts`, {
+			method: 'GET'
+		});
+
+		if (!response.ok) {
+			postLoadFailed = true;
+			return null;
+		}
+
+		return (await response.json()) as Posts;
+	}
+
+	let loadPromise = loadPosts();
+
+	function refreshPosts() {
+		loadPromise = loadPosts();
 	}
 </script>
 
@@ -38,17 +52,27 @@
 				<PostInput
 					inputPlaceholder="Enter your insightful comments here you fool"
 					buttonLabel="Post as {data.activeActor?.username}"
-					on:postSubmitted={postSubmitted}
+					on:postSubmitted={refreshPosts}
 				/>
 			</aside>
 		</div>
 		<div class="col-8">
 			<article>
-				{#each posts as post}
-					<Post {...post} actorUsername={data.activeActor?.username} />
-				{:else}
-					<p>No posts to display</p>
-				{/each}
+				{#await loadPromise}
+					<p>fetching posts...</p>
+				{:then posts}
+					{#if posts}
+						{#each posts as post}
+							<Post {...post} actorUsername={data.activeActor?.username} />
+						{:else}
+							<p>No posts to display</p>
+						{/each}
+					{:else}
+						<p>failed to fetch posts</p>
+					{/if}
+				{:catch error}
+					<p>failed to fetch comments ({error})</p>
+				{/await}
 			</article>
 		</div>
 	</div>

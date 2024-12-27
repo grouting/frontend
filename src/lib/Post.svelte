@@ -107,6 +107,8 @@
 			/>
 		</div>
 	{/if}
+
+	<!-- TODO: fix scrolling on opening comments, caused by #comment in url -->
 	{#if awaitingCommentLoad && _count.children > 0}
 		<div id="comment" class="comment-block">
 			{#await loadComments()}
